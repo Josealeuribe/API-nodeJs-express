@@ -3,4 +3,5 @@
 || npm init -y                      || Crear los paquetes json         ||
 || npm i express.                   || 
 || npm i cors                       ||
+|| npm i nodemon                    ||                                 ||
 || MVC (model, view, controller)    || Arquitectura                    ||
