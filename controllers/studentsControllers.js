@@ -44,8 +44,9 @@ class StudentsController {
                     [ dni, nombre, apellido, email, id ], (err, rows) => {
                         if (err) {
                             res.status(400).send(err);
-                        }
-                        res.status(201).json(rows);
+                        } 
+                        if (rows.affectedRows == 1)
+                        res.status(200).json({ respuesta: 'Registro actualizado con exito'});
                     });
         } catch(err) {
             res.status(500).send(err.message);
@@ -54,7 +55,19 @@ class StudentsController {
     }   
 
     borrar(req, res) {
-        res.json({msg: 'Borrar estudiante'})
+        const { id } = req.params;
+        try {
+            db.query(`DELETE FROM students WHERE id = ?`, [id],
+                    (err, rows) => {
+                        if (err) {
+                            res.status(400).send(err);
+                        } 
+                        if (rows.affectedRows == 1)
+                        res.status(200).json({ respuesta: 'Registro eliminado con exito'});
+                    });
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
     }
 
     consultarDetalle(req, res) {
