@@ -9,8 +9,8 @@ class CursosController {
             db.query(`SELECT * FROM cursos`,
                         (err, rows) => {
                         if (err) {
-                            res.status(400).send(err);
-                        }
+                            res.status(400).send(err.message);
+                        } 
                         res.status(201).json(rows);
                     });
 
@@ -28,8 +28,9 @@ class CursosController {
                     [ nombre, descripcion, teacher_id], (err, rows) => {
                         if (err) {
                             res.status(400).send(err);
-                        }
-                        res.status(201).json( {id: rows.insertId });
+                        } else {
+                            res.status(201).json( {id: rows.insertId });
+                        } 
                     });
         } catch(err) {
             res.status(500).send(err.message);
@@ -81,6 +82,24 @@ class CursosController {
                             res.status(201).json(rows);
                     });
 
+        } catch(err) {
+            res.status(500).send(err.message);
+        }
+    }
+
+    asociarStudent(req, res) {
+        try {
+            const { curso_id, students_id } = req.body
+            db.query(`INSERT INTO cursos_students
+                        (curso_id, students_id)
+                        VALUES (?, ?);`, 
+                    [ curso_id, students_id ], (err, rows) => {
+                        if (err) {
+                            res.status(400).send(err);
+                        } else {
+                            res.status(201).json({ respuesta: 'Estudiante registrado con exito.'});
+                        } 
+                    });
         } catch(err) {
             res.status(500).send(err.message);
         }
